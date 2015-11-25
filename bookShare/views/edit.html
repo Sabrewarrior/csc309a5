@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/edit.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!--nav bar-->
+        <nav class="nav">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/<%= user.email %>/home'><img src="http://127.0.0.1:3000/images/logo.jpeg" height="30" witdth="30"></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav"></ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
+                        <li><a href='/logout'>Log out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--main content-->
+        <div class="jumbotron">
+            <img src="data:image/png;base64,<%= image%>" width="80" height="80" />
+            <br />
+            <br />
+            <% if((user.role=='admin'||user.role=='superAdmin')&&role=='regular') { %>
+            <a class="btn btn-lg btn-primary" id="delete">
+                Delete User
+            </a>
+            <% } %>
+            <% if(user.role=='superAdmin'&&role=='regular') { %>
+            <a class="btn btn-lg btn-primary" id="admin">
+                Assign admin
+            </a>
+            <% } %>
+            <% if(user.role=='superAdmin'&&role=='admin') { %>
+            <a class="btn btn-lg btn-primary" id="unadmin">
+                Unassign admin
+            </a>
+            <% } %>
+            <br />
+            <br />
+            <p>upload picture</p>
+            <form method="post" enctype="multipart/form-data" action='/<%= email%>/picture'>
+                <input type="file" name="picture" class="btn">
+                <input type="submit">
+            </form>
+            <br />
+            <p id="email"><%= email %></p>
+            <!--update information-->
+            <form onsubmiy="return false">
+                <fieldset>
+                    <legend>Update profile</legend>
+                    <label>Display name:</label>
+                    <input id="display_name" type="text" value="<%= display_name%>"><br />
+                    <label>Description:</label>
+                    <input id="description" type="text" value="<%= description%>"><br />
+                    <button id="update" class="btn">Update</button>
+                </fieldset>
+            </form>
+            <br />
+            <!--change password-->
+            <form onsubmiy="return false">
+                <fieldset>
+                    <legend>Change Password</legend>
+                    <label>Current Password:</label>
+                    <input type="password" id="current" placeholder="Current Password" required /><br />
+                    <label>New Password:</label>
+                    <input type="password" id="new" placeholder="New Password" required /><br />
+                    <label>Confirm Password:</label>
+                    <input type="password" id="confirm" placeholder="Confirm Password" required /><br />
+                    <button id="changePwd" class="btn">Change password</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+</body>
+</html>
