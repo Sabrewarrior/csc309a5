@@ -218,7 +218,7 @@ router.get("/:email/edit", function (req, res) {
             req.session.error = "Please login";
             res.redirect("/login");
         } else {
-            if ((req.session.user.role == 'regular' && req.session.user.email != req.params.email) || req.session.user.role == 'admin' && doc.role != 'regular') {
+            if ((req.session.user.role == 'regular' && req.session.user.email != req.params.email) || (req.session.user.role == 'admin' && req.session.user.email != req.params.email && doc.role != 'regular')) {
                 res.sendStatus(404);
             } else {
                 res.render("edit", {
@@ -274,6 +274,103 @@ router.get("/logout", function (req, res) {
     req.session.error = null;
     res.redirect("/");
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* GET user library page. */
+router.get("/:email/library", function (req, res) {
+    Users.findOne({ email: req.params.email }, function (err, doc) {
+        //if not logged in
+        if (!req.session.user) {
+            req.session.error = "Please login";
+            res.redirect("/login");
+        } else {
+            //TODO
+
+
+        }
+    })
+});
+
+/* POST user message. */
+router.post("/:email/message", function (req, res) {
+    Users.findOne({ email: req.params.email }, function (err, doc) {
+       //TODO
+    })
+});
+
+router.route("/:email/share")
+    /* GET user share page. */
+    .get(function (req, res) {
+        //find user 
+        Users.findOne({ email: req.params.email }, function (err, doc) {
+            //if not logged in 
+            if (!req.session.user) {
+                req.session.error = "Please login";
+                res.redirect("/login");
+            } else {
+                //TODO
+            }
+        })
+
+    })
+    /* POST user share. */
+   .post(function (req, res) {
+       //TODO
+   });
+
+
+router.route("/book/:id")
+    /* GET user share page. */
+    .get(function (req, res) {
+       //TODO
+
+    })
+    /* POST user share. */
+   .post(function (req, res) {
+       //TODO
+   });
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = router;
 
 
