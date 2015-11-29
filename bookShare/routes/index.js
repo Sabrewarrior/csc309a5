@@ -104,25 +104,26 @@ router.route("/login")
 
 /* GET user home page. */
 router.get("/:email/home", function (req, res) {
-    Users.find({}, function (err, data) {
+    Books.find({borrowed: false}, function (err, data) {
         //if not logged in 
         if (!req.session.user) {
             req.session.error = "Please login";
             res.redirect("/login");
         } else {
             //get all users info in the db
-            var emails = new Array();
-            var display_names = new Array();
+            var titles = new Array();
+            var authors = new Array();
             for (var i = 0; i < data.length ; i++) {
-                emails[emails.length] = data[i].email;
-                display_names.push(data[i].display_name);
+                titles.push(data[i].title);
+                authors.push(data[i].author);
             }
-            res.locals.emails = emails;
-            res.locals.display_names = display_names;
+            res.locals.titles = titles;
+            res.locals.authors = authors;
             res.render("home");
         }
     })
 });
+
 
 
 
@@ -276,6 +277,38 @@ router.get("/logout", function (req, res) {
 });
 
 
+router.route("/:email/share")
+    /* GET user share page. */
+    .get(function (req, res) {
+        //find user 
+        Users.findOne({ email: req.params.email }, function (err, doc) {
+            //if not logged in 
+            if (!req.session.user) {
+                req.session.error = "Please login";
+                res.redirect("/login");
+            } else {
+                res.render("share");
+            }
+        })
+
+    })
+    /* POST user share. */
+   .post(function (req, res) {
+       var title = req.body.title;
+       var author = req.body.author;
+       var description = req.body.description;
+       //create book in db
+       var book = Books.create({
+           owner: req.params.email,
+           title: title,
+           author: author,
+           description: description,
+           borrowed: false  
+       }
+       , function (err, doc) {
+           res.sendStatus(200);
+       })
+   });
 
 
 
@@ -307,16 +340,18 @@ router.get("/logout", function (req, res) {
 
 
 /* GET user library page. */
-router.get("/:email/library", function (req, res) {
+router.get("/:email/books", function (req, res) {
     Users.findOne({ email: req.params.email }, function (err, doc) {
         //if not logged in
         if (!req.session.user) {
             req.session.error = "Please login";
             res.redirect("/login");
         } else {
-            //TODO
-
-
+            Books.find({ owner: req.params.email }, function (err, doc) {
+                console.log(doc);
+                res.locals.books = doc;
+                res.render("books");
+            })
         }
     })
 });
@@ -324,35 +359,17 @@ router.get("/:email/library", function (req, res) {
 /* POST user message. */
 router.post("/:email/message", function (req, res) {
     Users.findOne({ email: req.params.email }, function (err, doc) {
-       //TODO
+        //TODO
     })
 });
 
-router.route("/:email/share")
-    /* GET user share page. */
-    .get(function (req, res) {
-        //find user 
-        Users.findOne({ email: req.params.email }, function (err, doc) {
-            //if not logged in 
-            if (!req.session.user) {
-                req.session.error = "Please login";
-                res.redirect("/login");
-            } else {
-                //TODO
-            }
-        })
 
-    })
-    /* POST user share. */
-   .post(function (req, res) {
-       //TODO
-   });
 
 
 router.route("/book/:id")
     /* GET user share page. */
     .get(function (req, res) {
-       //TODO
+        //TODO
 
     })
     /* POST user share. */

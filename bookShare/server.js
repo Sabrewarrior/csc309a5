@@ -32,6 +32,7 @@ var userSchema = new Schema({
 global.Users = mongoose.model('Users', userSchema);
 
 var bookSchema = new Schema({
+    owner: String,
     borrowed: Boolean,
     title: String,
     author: String,
