@@ -13,7 +13,7 @@
         }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/home.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/books.js"></script>
 </head>
 <body>
     <div class="container">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </nav>
-        <h1 align="middle">Welcome <%= user.email %></h1>
+        <h1 align="middle">My books</h1>
         <br />
         <br />
         <!--user table-->
@@ -46,8 +46,8 @@
                 </tr>
             </thead>
             <tbody>
-                <% for(var i=0; i < titles.length; i++) {%>
-                <tr><td><a><%= titles[i] %></a> </td> <td><%= authors[i] %></td></tr>
+                <% for(var i=0; i < books.length; i++) {%>
+                <tr><td><a><%= books[i].title %></a> </td> <td><%= books[i].author %></td></tr>
                 <% } %>
             </tbody>
         </table>
