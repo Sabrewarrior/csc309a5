@@ -110,15 +110,7 @@ router.get("/:email/home", function (req, res) {
             req.session.error = "Please login";
             res.redirect("/login");
         } else {
-            //get all users info in the db
-            var titles = new Array();
-            var authors = new Array();
-            for (var i = 0; i < data.length ; i++) {
-                titles.push(data[i].title);
-                authors.push(data[i].author);
-            }
-            res.locals.titles = titles;
-            res.locals.authors = authors;
+            res.locals.books = data;
             res.render("home");
         }
     })
@@ -334,12 +326,7 @@ router.route("/:email/share")
 
 
 
-
-
-
-
-
-/* GET user library page. */
+/* GET user books page. */
 router.get("/:email/books", function (req, res) {
     Users.findOne({ email: req.params.email }, function (err, doc) {
         //if not logged in
@@ -348,7 +335,6 @@ router.get("/:email/books", function (req, res) {
             res.redirect("/login");
         } else {
             Books.find({ owner: req.params.email }, function (err, doc) {
-                console.log(doc);
                 res.locals.books = doc;
                 res.render("books");
             })
@@ -367,14 +353,23 @@ router.post("/:email/message", function (req, res) {
 
 
 router.route("/book/:id")
-    /* GET user share page. */
+    /* GET book page. */
     .get(function (req, res) {
-        //TODO
-
+        Books.findById(req.params.id, function (err, doc) {
+            var user_books = req.session.user.books;
+            for (var i = 0; i < user_books.length; i++) {
+                if (user_books[i].id == req.params.id) {
+                    res.local.user_comment = user_books[i].comment;
+                    res.local.user_rate=user_books[i].rate
+                }
+            }
+            res.locals.book = doc;
+            res.render("book");
+        })
     })
-    /* POST user share. */
+    /* POST book. */
    .post(function (req, res) {
-       //TODO
+       
    });
 
 

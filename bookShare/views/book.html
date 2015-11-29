@@ -5,7 +5,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/profile.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/book.js"></script>
 
 </head>
 <body>
@@ -25,31 +25,48 @@
                 </div>
             </div>
         </nav>
-        <p id="user" hidden><%= user.email%></p>
+        <p id="id" hidden><%= book.id%></p>
+        <p id="email" hidden><%= user.email%></p>
         <!--main content-->
         <div class="jumbotron">
-            <img src="data:image/png;base64,<%= image%>" width="80" height="80" />
-            <br />
-            <br />
-            <p>Email: <%= email%></p>
-            <p>Display name: <%= display_name %></p>
-            <p>Description: <%= description%></p>
-            <br />
-            <br />
-            <br />
-            <p>
-                <% if(user.email==email||user.role=='superAdmin'||user.role=='admin'&&role=='regular') { %>
-                <a class="btn btn-lg btn-primary" href='/<%= email %>/edit'>
-                    Edit
-                </a>
-                <% } %>
-            </p>
-            <p>
-                <% if(user.role=='admin'||user.role=='superAdmin') { %>
-                <a class="btn btn-lg btn-primary" href='/<%= email %>/behaviour'>View behavior</a>
-                <% } %>
-            </p>
+
+            <p>Title: <%= book.title%></p>
+            <p>Author: <%= book.author%></p>
+            <p>Description: <%= book.description%></p>
+            <p>Rate: <%= book.description%></p>
         </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Comment</th>
+                    <th>Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < book.comments.length; i++) {%>
+                <tr><td><a href="/<%= book.comments[i].email %>/profile"><%= book.comments[i].email %></a> </td> <td><%= book.comments[i].body %></td><td><%= book.comments[i].rate %></td></tr>
+                <% } %>
+            </tbody>
+        </table>
+        
+        <p>
+            <% if(user) { %>
+            <select disabled seleted id="rate">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <br />
+            <textarea rows="4" cols="50" id="body"></textarea>
+            <br />
+            <a class="btn btn-lg btn-primary" id="comment">
+                Add comment
+            </a>
+            <% } %>
+        </p>
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 

@@ -38,7 +38,7 @@ var bookSchema = new Schema({
     author: String,
     description: String,
     image: String,
-    comments: [{ email: String, body: String, date: Date }],
+    comments: [{ email: String, body: String, rate: Number, date: Date }],
     rate: Number
 })
 global.Books = mongoose.model('Books', bookSchema);
