@@ -26,25 +26,20 @@
         </nav>
         <!--main content-->
         <div class="jumbotron">
-            
-            
-           
-           
-            
-            <form onsubmit="return false">
+            <form id="upload" method = "post" enctype="multipart/form-data" action="/<%= email%>/share">
                 <fieldset>
+                    <legend>Upload picture</legend>
+                    <input type="file" name="picture" class="btn">
                     <legend>Book info</legend>
                     <label>title:</label>
-                    <input id="title" type="text"><br />
+                    <input name="title" type="text"><br />
                     <label>author:</label>
-                    <input id="author" type="text"><br />
+                    <input name="author" type="text"><br />
                     <label>description:</label>
-                    <input id="description" type="text"><br />
-                    <button id="share" class="btn">Share</button>
+                    <input name="description" type="text"><br />
+                    <input type="submit">
                 </fieldset>
             </form>
-            
-           
         </div>
     </div>
     <p id="email" hidden><%= user.email %></p>

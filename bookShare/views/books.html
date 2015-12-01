@@ -41,13 +41,18 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Picture</th>
                     <th>Title</th>
                     <th>Author</th>
                 </tr>
             </thead>
             <tbody>
                 <% for(var i=0; i < books.length; i++) {%>
-                <tr><td><a href="/book/<%= books[i].id %>"><%= books[i].title %></a> </td> <td><%= books[i].author %></td></tr>
+                <tr>
+                    <td><img src="data:image/jpg;base64,<%= books[i].image%>" height="100" width="85"/></td>
+                    <td><a><%= books[i].title %></a></td>
+                    <td><%= books[i].author %></td>
+                </tr>
                 <% } %>
             </tbody>
         </table>
