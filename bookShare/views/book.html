@@ -25,7 +25,7 @@
                 </div>
             </div>
         </nav>
-        <p id="id" hidden><%= book.id%></p>
+        <p id="bookId" hidden><%= book.id%></p>
         <p id="email" hidden><%= user.email%></p>
         <!--main content-->
         <div class="jumbotron">
@@ -34,6 +34,11 @@
             <p>Author: <%= book.author%></p>
             <p>Description: <%= book.description%></p>
             <p>Rate: <%= book.description%></p>
+            <% if(user) { %>
+            <a class="btn btn-lg btn-primary" id="borrow">
+                Borrow
+            </a>
+            <% } %>
         </div>
         <table class="table">
             <thead>
@@ -49,10 +54,10 @@
                 <% } %>
             </tbody>
         </table>
-        
+
         <p>
             <% if(user) { %>
-            <select disabled seleted id="rate">
+            <select id="rate">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
