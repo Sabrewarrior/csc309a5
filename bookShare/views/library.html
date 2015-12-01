@@ -13,7 +13,7 @@
         }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/books.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/library.js"></script>
 </head>
 <body>
     <div class="container">
@@ -26,7 +26,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav"></ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href='/<%= user.email %>/books'>My books</a></li>
+                        <li><a href='/<%= user.email %>/library'>Library</a></li>
                         <li><a href='/<%= user.email %>/share'>Share</a></li>
                         <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
                         <li><a href='/logout'>Log out</a></li>
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </nav>
-        <h1 align="middle">My books</h1>
+        <h1 align="middle">Library</h1>
         <br />
         <br />
         <!--user table-->
@@ -50,7 +50,7 @@
                 <% for(var i=0; i < books.length; i++) {%>
                 <tr>
                     <td><img src="data:image/jpg;base64,<%= books[i].image%>" height="100" width="85"/></td>
-                    <td><a><%= books[i].title %></a></td>
+                    <td><a href="/book/<%= books[i].id %>"><%= books[i].title %></a></td>
                     <td><%= books[i].author %></td>
                 </tr>
                 <% } %>

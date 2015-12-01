@@ -348,7 +348,7 @@ router.route("/:email/share")
 
 
 /* GET user books page. */
-router.get("/:email/books", function (req, res) {
+router.get("/:email/library", function (req, res) {
     Users.findOne({ email: req.params.email }, function (err, doc) {
         //if not logged in
         if (!req.session.user) {
@@ -357,7 +357,7 @@ router.get("/:email/books", function (req, res) {
         } else {
             Books.find({ owner: req.params.email }, function (err, doc) {
                 res.locals.books = doc;
-                res.render("books");
+                res.render("library");
             })
         }
     })
@@ -377,25 +377,27 @@ router.route("/book/:id")
     /* GET book page. */
     .get(function (req, res) {
         Books.findById(req.params.id, function (err, doc) {
-            var user_books = req.session.user.books;
-            for (var i = 0; i < user_books.length; i++) {
-                if (user_books[i].id == req.params.id) {
-                    res.local.user_comment = user_books[i].comment;
-                    res.local.user_rate=user_books[i].rate
-                }
-            }
             res.locals.book = doc;
             res.render("book");
         })
     })
     /* POST book. */
    .post(function (req, res) {
-       
+       Books.update({ _id: req.params.id }, { $push: { comments: { email: req.body.email, body: req.body.body, rate: req.body.rate } } }, { upsert: true }, function (err) {
+
+           res.sendStatus(200);
+       });
    });
 
 
 
-
+router.post("/book/:id/borrow", function (req, res) {
+    Books.update({ _id: req.params.id }, { borrowed: true, owner: req.body.email }, function (err) {
+        Users.update({ email: req.body.email }, { $push: { books: { id: req.params.id } } }, function (err) {
+            res.sendStatus(200);
+        })
+    })
+});
 
 
 
