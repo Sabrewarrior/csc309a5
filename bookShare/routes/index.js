@@ -279,28 +279,49 @@ router.route("/:email/share")
                 req.session.error = "Please login";
                 res.redirect("/login");
             } else {
-                res.render("share");
+                res.render("share",{email: req.params.email});
             }
         })
 
     })
     /* POST user share. */
-   .post(function (req, res) {
-       var title = req.body.title;
-       var author = req.body.author;
-       var description = req.body.description;
-       //create book in db
-       var book = Books.create({
-           owner: req.params.email,
-           title: title,
-           author: author,
-           description: description,
-           borrowed: false  
-       }
-       , function (err, doc) {
-           res.sendStatus(200);
-       })
-   });
+    .post(multipartMiddleware, function (req, res) {
+        var title = req.body.title;
+        var author = req.body.author;
+        var description = req.body.description;
+        fs.readFile(req.files.picture.path, 'binary', function (err, original_data){
+            var book_image = new Buffer(original_data, 'binary').toString('base64');
+            if (book_image == ""){
+                fs.readFile('imagesdefault.jpg', 'binary', function (err, original_data) {
+                    bookimage = new Buffer(original_data, 'binary').toString('base64');
+                    Books.create({
+                    owner: req.params.email,
+                    title: title,
+                    author: author,
+                    description: description,
+                    borrowed: false,
+                    image: bookimage
+                }
+                , function (err, doc) {
+                    console.log(bookimage);
+                    res.redirect('/' + req.params.email + '/home');
+                    });
+                });
+            }else{
+                Books.create({
+                    owner: req.params.email,
+                    title: title,
+                    author: author,
+                    description: description,
+                    borrowed: false,
+                    image: book_image
+                }
+                , function (err, doc) {
+                    res.redirect('/' + req.params.email + '/home');
+                });
+            }
+        });
+    });
 
 
 
