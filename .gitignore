@@ -178,7 +178,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# TODO: Comment the next line if you want to checkin your web deploy settings 
+# TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -304,6 +304,9 @@ local.properties
 
 # Eclipse Core
 .project
+.sublime-project
+.tern-project
+.jshintrc
 
 # External tool builders
 .externalToolBuilders/
@@ -331,5 +334,3 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
-
-
