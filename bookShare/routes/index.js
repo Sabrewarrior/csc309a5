@@ -298,6 +298,7 @@ router.route("/:email/share")
                     owner: req.params.email,
                     title: title,
                     author: author,
+                    rate: 0,
                     description: description,
                     borrowed: false,
                     image: bookimage
@@ -383,10 +384,13 @@ router.route("/book/:id")
     })
     /* POST book. */
    .post(function (req, res) {
-       Books.update({ _id: req.params.id }, { $push: { comments: { email: req.body.email, body: req.body.body, rate: req.body.rate } } }, { upsert: true }, function (err) {
-
-           res.sendStatus(200);
-       });
+       Books.findById(req.params.id, function (err, doc) {
+           var rate = (doc.rate * doc.comments.length + parseInt(req.body.rate)) / (doc.comments.length + 1);
+           Books.update({ _id: req.params.id }, { rate: rate, $push: { comments: { email: req.body.email, body: req.body.body, rate: req.body.rate } } }, { upsert: true }, function (err) {
+               res.sendStatus(200);
+           });
+       })
+       
    });
 
 
