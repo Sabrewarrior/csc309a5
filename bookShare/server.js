@@ -24,7 +24,6 @@ var userSchema = new Schema({
     books:[{id: String, comment: String, rate: Number}],
     display_name: String,
     role: String,
-    messages:[{email: String, body: String, date: Date}],
     ip: String,
     device: String,
     location: String
@@ -43,6 +42,12 @@ var bookSchema = new Schema({
 })
 global.Books = mongoose.model('Books', bookSchema);
 
+var messageSchema = new Schema({
+    from: String,
+    to: String,
+    text:[{body: String, date: Date}]
+})
+global.Messages = mongoose.model('Messages', messageSchema);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine("html", require("ejs").__express);
