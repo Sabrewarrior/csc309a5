@@ -10,7 +10,7 @@ var app = express();
 var mongoose = require('mongoose');
 
 //connect mongodb
-var db = mongoose.connect("mongodb://localhost:27017/test");
+var db = mongoose.connect("mongodb://bookShareDev:book$hare123@ds031541.mongolab.com:31541/bookshare-toronto");
 
 //create user schema
 var Schema = mongoose.Schema;
@@ -64,7 +64,9 @@ app.use(session({
     secret: 'secret',
     cookie: {
         maxAge: 1000 * 60 * 30
-    }
+    },
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(cookieParser());
