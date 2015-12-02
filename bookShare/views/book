@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Book Info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/book.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!--nav bar-->
+        <nav class="nav">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/<%= user.email %>/home'><img src="http://127.0.0.1:3000/images/logo.jpeg" height="30" witdth="30"></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav"></ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
+                        <li><a href='/logout'>Log out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <p id="user" hidden><%= user.email%></p>
+        <!--main content-->
+        <div class="jumbotron">
+            <img src="data:image/png;base64,<%= image%>" width="80" height="80"/>
+            <br />
+            <br />
+            <p id="title">Title: <%= title%></p>
+            <p>Author(s): <%= author %></p>
+            <p>Publisher: <%= publisher%></p>  
+            <p>Description: <%= description%></p>
+
+            <br />
+            <br />
+            <br />
+            <p>People sharing this book</p>
+            <table id="sharingUsers">
+            </table>
+        </div>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+</body>
+</html>
