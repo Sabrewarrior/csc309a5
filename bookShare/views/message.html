@@ -13,7 +13,7 @@
         }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/home.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/message.js"></script>
 </head>
 <body>
     <div class="container">
@@ -35,23 +35,24 @@
                 </div>
             </div>
         </nav>
-        <h1 align="middle">Welcome <%= user.email %></h1>
+        <h1 align="middle"><%= user.email %>'s messages</h1>
         <br />
         <br />
         <!--user table-->
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th>User</th>
+                    <th>Message</th>
                 </tr>
             </thead>
             <tbody>
-                <% for(var i=0; i < books.length; i++) {%>
-                <tr><td><a href="/book/<%= books[i].id %>"><%= books[i].title %></a> </td> <td><%= books[i].author %></td></tr>
+                <% for(var i=0; i < messages.length; i++) {%>
+                <tr><td><a href="/<%= messages[i].from %>/profile"><%= messages[i].from %></a> </td> <td><a href="/<%= user.email %>/message/<%= messages[i].from %>"><%= messages[i].text[messages[i].text.length-1].body %></a></td></tr>
                 <% } %>
             </tbody>
         </table>
+        
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 

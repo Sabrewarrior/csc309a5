@@ -364,14 +364,55 @@ router.get("/:email/library", function (req, res) {
     })
 });
 
-/* POST user message. */
-router.post("/:email/message", function (req, res) {
-    Users.findOne({ email: req.params.email }, function (err, doc) {
-        //TODO
+
+/* GET user message. */
+router.get("/:email/message", function (req, res) {
+    Messages.find({ to: req.params.email }, function (err, doc) {
+        res.locals.messages = doc;
+        res.render("message");
     })
 });
 
 
+router.route("/:email1/message/:email2")
+    .get(function (req, res) {
+        Messages.findOne({ from: req.params.email1, to: req.params.email2 }, function (err, doc1) {
+            if (doc1) {
+                Messages.findOne({ from: req.params.email2, to: req.params.email1 }, function (err, doc2) {
+                    res.locals.messages1 = doc1;
+                    res.locals.messages2 = doc2;
+                    res.locals.to = req.params.email2;
+                    res.render("chat");
+                })
+            } else {
+                Messages.create({
+                    from: req.params.email1,
+                    to: req.params.email2,
+                    text: []
+                })
+                Messages.findOne({ from: req.params.email1, to: req.params.email2 }, function (err, doc1) {
+                    Messages.findOne({ from: req.params.email2, to: req.params.email1 }, function (err, doc2) {
+                        res.locals.messages1 = doc1;
+                        res.locals.messages2 = doc2;
+                        res.locals.to = req.params.email2;
+                        res.render("chat");
+                    })
+                })
+            }
+        })
+    })
+    
+   .post(function (req, res) {
+      
+           
+               Messages.update({ from: req.params.email1, to: req.params.email2 }, { $push: { text: {body: req.body.text } } }, { upsert: true }, function (err) {
+                   res.sendStatus(200);
+               });
+
+           
+       
+
+   });
 
 
 router.route("/book/:id")
