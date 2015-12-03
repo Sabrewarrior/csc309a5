@@ -1,0 +1,14 @@
+$(document).ready(function(){
+  $("#mybooks").click(function(){
+    $("#table1").show();
+    $("#table2").hide();
+  });
+  $("#borrowedbooks").click(function(){
+    $("#table2").show();
+    $("#table1").hide();
+  });
+  $("#displayall").click(function(){
+    $("#table2").show();
+    $("#table1").show();
+  });
+});
