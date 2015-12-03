@@ -57,6 +57,7 @@
 
         <p>
             <% if(user) { %>
+              <label>Rate: </label>
             <select id="rate">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -65,6 +66,7 @@
                 <option value="5">5</option>
             </select>
             <br />
+            <h4>Comments: </h4>
             <textarea rows="4" cols="50" id="body"></textarea>
             <br />
             <a class="btn btn-lg btn-primary" id="comment">

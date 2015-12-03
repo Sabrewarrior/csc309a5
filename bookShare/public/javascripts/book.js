@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     $("#comment").click(function () {
         var bookId = $('#bookId').html();
         var rate = $('#rate').val();
@@ -21,8 +21,9 @@ $(document).ready(function () {
             }
         });
     });
+
     $("#borrow").click(function () {
-        var id = $('#id').html();
+        var bookId = $('#bookId').html();
         var email = $('#email').html();
         var data = {email: email };
         $.ajax({
@@ -32,11 +33,12 @@ $(document).ready(function () {
             //if success, get profile page
             success: function (data, status) {
                 if (status == 'success') {
-                    location.href = '/'+email+'/books';
+                    location.href = '/'+email+'/library';
                 }
             },
             error: function (data, status) {
-
+              alert("You can't borrow your own book!");
+              location.reload();
             }
         });
     });
