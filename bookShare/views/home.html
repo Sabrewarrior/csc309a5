@@ -11,6 +11,9 @@
             background-color: #fff;
             border: 1px solid #e5e5e5;
         }
+        #tableHeader {
+            text-align: center;
+        }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/home.js"></script>
@@ -38,6 +41,9 @@
         <h1 align="middle">Welcome <%= user.display_name %></h1>
         <br />
         <br />
+        <h3 id="tableHeader">
+        Suggested books for you
+        </h3>
         <!--user table-->
         <table class="table">
             <thead>
