@@ -13,9 +13,11 @@
         }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/home.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/chat.js"></script>
 </head>
 <body>
+    <p hidden id="email1"><%= user.email%></p>
+    <p hidden id="email2"><%= to%></p>
     <div class="container">
         <!--nav bar-->
         <nav class="nav">
@@ -35,24 +37,30 @@
                 </div>
             </div>
         </nav>
-        <h1 align="middle">Welcome <%= user.email %></h1>
+
         <br />
         <br />
         <!--user table-->
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th>Message</th>
                 </tr>
             </thead>
             <tbody>
-                <% for(var i=0; i < books.length; i++) {%>
-                <tr><td><a href="/book/<%= books[i].id %>"><%= books[i].title %></a> </td> <td><%= books[i].author %></td></tr>
+                <% for(var i=0; i < messages1.text.length; i++) {%>
+                <tr><td><%= messages1.text[i].body %></td></tr>
+                <% } %>
+                <% for(var i=0; i < messages2.text.length; i++) {%>
+                <tr><td><%= messages2.text[i].body %></td></tr>
                 <% } %>
             </tbody>
         </table>
     </div>
+    <textarea rows="4" cols="50" id="body"></textarea>
+    <a class="btn btn-lg btn-primary" id="send">
+          Send
+    </a>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
 </body>
