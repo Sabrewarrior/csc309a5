@@ -29,7 +29,6 @@
         <p id="email" hidden><%= user.email%></p>
         <!--main content-->
         <div class="jumbotron">
-
             <p>Title: <%= book.title%></p>
             <p>Author: <%= book.author%></p>
             <p>Description: <%= book.description%></p>
@@ -40,17 +39,68 @@
             </a>
             <% } %>
         </div>
+        <div class="btn pull-right">
+          <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Fliter
+          <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a id="rated">Rate Descending</a></li>
+            <li><a id="ratea">Rate Ascending</a></li>
+            <li class="divider"></li>
+            <li><a id="timed">Time Descending</a></li>
+            <li><a id="timea">Time Ascending</a></li>
+          </ul>
+        </div>
+        </div>
         <table class="table">
             <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Comment</th>
-                    <th>Rate</th>
+                  <th>User</th>
+                  <th>Comment</th>
+                  <th>Rate</th>
+                  <th>Time</th>
                 </tr>
             </thead>
-            <tbody>
-                <% for(var i=0; i < book.comments.length; i++) {%>
-                <tr><td><a href="/<%= book.comments[i].email %>/profile"><%= book.comments[i].email %></a> </td> <td><%= book.comments[i].body %></td><td><%= book.comments[i].rate %></td></tr>
+            <tbody id="t_timed">
+                <% for(var i=0; i < book_timed.length; i++) {%>
+                <tr>
+                  <td><a href="/<%= book_timed[i].email %>/profile"><%= book_timed[i].email %></a> </td>
+                  <td><%= book_timed[i].body %></td>
+                  <td><%= book_timed[i].rate %></td>
+                  <td><%= book_timed[i].date%></td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tbody id="t_timea" hidden>
+                <% for(var i=0; i < book_timea.length; i++) {%>
+                <tr>
+                  <td><a href="/<%= book_timea[i].email %>/profile"><%= book_timea[i].email %></a> </td>
+                  <td><%= book_timea[i].body %></td>
+                  <td><%= book_timea[i].rate %></td>
+                  <td><%= book_timea[i].date%></td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tbody id="t_ratea" hidden>
+                <% for(var i=0; i < book_ratea.length; i++) {%>
+                <tr>
+                  <td><a href="/<%= book_ratea[i].email %>/profile"><%= book_ratea[i].email %></a> </td>
+                  <td><%= book_ratea[i].body %></td>
+                  <td><%= book_ratea[i].rate %></td>
+                  <td><%= book_ratea[i].date%></td>
+                </tr>
+                <% } %>
+            </tbody>
+            <tbody id="t_rated" hidden>
+                <% for(var i=0; i < book_rated.length; i++) {%>
+                <tr>
+                  <td><a href="/<%= book_rated[i].email %>/profile"><%= book_rated[i].email %></a> </td>
+                  <td><%= book_rated[i].body %></td>
+                  <td><%= book_rated[i].rate %></td>
+                  <td><%= book_rated[i].date%></td>
+                </tr>
                 <% } %>
             </tbody>
         </table>
