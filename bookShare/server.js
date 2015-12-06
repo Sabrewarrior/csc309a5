@@ -10,8 +10,8 @@ var app = express();
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
 //connect mongodb
-var db = mongoose.connect("mongodb://bookShareDev:book$hare123@ds031541.mongolab.com:31541/bookshare-toronto");
-//var db = mongoose.connect("mongodb://localhost:27017/test");
+//var db = mongoose.connect("mongodb://bookShareDev:book$hare123@ds031541.mongolab.com:31541/bookshare-toronto");
+var db = mongoose.connect("mongodb://localhost:27017/test");
 //create user schema
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
@@ -130,4 +130,5 @@ app.use(function (err, req, res, next) {
 
 
 
-app.listen(port);
+var server = app.listen(port);
+module.exports = server;
