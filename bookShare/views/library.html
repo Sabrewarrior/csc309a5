@@ -68,7 +68,7 @@
           <tbody>
               <% for(var i = 0; i < mybooks.length; i++) {%>
               <tr>
-                  <td><img src="data:image/jpg;base64,<%= mybooks[i].image%>" height="100" width="85"/></td>
+                  <td><img src="data:image/jpg;base64,<%= mybooks[i].image%>" height="95" width="65"/></td>
                   <td><a href="/book/<%= mybooks[i].id %>"><%= mybooks[i].title %></a></td>
                   <td><%= mybooks[i].author %></td>
                   <% if (mybooks[i].borrowed) {%>
@@ -90,7 +90,6 @@
               <th>Picture</th>
               <th>Title</th>
               <th>Author</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -99,7 +98,6 @@
                 <td><img src="data:image/jpg;base64,<%= borrowedbooks[i].image%>" height="100" width="85"/></td>
                 <td><a href="/book/<%= borrowedbooks[i].id %>"><%= borrowedbooks[i].title %></a></td>
                 <td><%= borrowedbooks[i].author %></td>
-                <td><a class="btn btn-lg btn-primary" id="return">Return</a></td>
               </tr>
             <% } %>
             <tr>

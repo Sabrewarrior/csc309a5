@@ -10,8 +10,8 @@ var app = express();
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
 //connect mongodb
-//var db = mongoose.connect("mongodb://bookShareDev:book$hare123@ds031541.mongolab.com:31541/bookshare-toronto");
-var db = mongoose.connect("mongodb://localhost:27017/test");
+var db = mongoose.connect("mongodb://bookShareDev:book$hare123@ds031541.mongolab.com:31541/bookshare-toronto");
+//var db = mongoose.connect("mongodb://localhost:27017/test");
 //create user schema
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
@@ -31,6 +31,7 @@ var userSchema = new Schema({
 })
 global.Users = mongoose.model('Users', userSchema);
 
+//create books schema
 var bookSchema = new Schema({
     catalog: Number,
     owner: String,
@@ -45,6 +46,7 @@ var bookSchema = new Schema({
 })
 global.Books = mongoose.model('Books', bookSchema);
 
+//create message schema
 var messageSchema = new Schema({
     from: String,
     to: String,

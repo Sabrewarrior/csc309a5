@@ -11,6 +11,10 @@
             background-color: #fff;
             border: 1px solid #e5e5e5;
         }
+        #body1{
+          width: 50%;
+          margin: 0 auto;
+        }
     </style>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/jquery.min.js"></script>
     <script type="text/javascript" src="http://127.0.0.1:3000/javascripts/chat.js"></script>
@@ -37,7 +41,7 @@
                 </div>
             </div>
         </nav>
-        
+
         <br />
         <br />
         <!--user table-->
@@ -57,10 +61,12 @@
             </tbody>
         </table>
     </div>
-    <textarea rows="4" cols="50" id="body"></textarea>
-    <a class="btn btn-lg btn-primary" id="send">
-          Send
-    </a>
+    <div id="body1">
+      <textarea rows="4" cols="50" id="body"></textarea>
+      <a class="btn btn-lg btn-primary" id="send">
+            Send
+      </a>
+    </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 
 </body>

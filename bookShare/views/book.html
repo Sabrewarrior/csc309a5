@@ -32,11 +32,17 @@
         <p id="email" hidden><%= user.email%></p>
         <!--main content-->
         <div class="jumbotron">
-
-            <p>Title: <%= book.title%></p>
-            <p>Author: <%= book.author%></p>
-            <p>Description: <%= book.description%></p>
-            <p>Owner: 
+          <div class="row">
+            <div class="col-sm-4">
+              <img src="data:image/png;base64,<%= book.image%>">
+            </div>
+            <div class="col-sm-8">
+              <h3>Title:</h3> <p><%= book.title%></p>
+              <h3>Author:</h3> <p><%= book.author%></p>
+              <h3>Description:</h3> <p><%= book.description%></p>
+            </div>
+          </div>
+            <p>Owner:
                 <%if (book.owner == user.email) {%>
                     <b>This is your book</b>
                 <% } else { %>
@@ -58,7 +64,7 @@
                 <p>Held by: <%= book.holder%></p>
             <% } %>
         </div>
-                    
+
         <div class="btn pull-right">
           <div class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -74,7 +80,7 @@
           </ul>
         </div>
         </div>
-                
+
         <table class="table">
             <thead>
                 <tr>
@@ -124,7 +130,7 @@
                 <% } %>
             </tbody>
         </table>
-                
+
         <p>
             <% if(user) { %>
               <label>Rate: </label>

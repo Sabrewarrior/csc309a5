@@ -46,6 +46,26 @@ $(document).ready(function () {
     });
   });
 
+  $("#return").click(function(){
+    var bookId = $("#bookId").html();
+    var email = $('#email').html();
+    var data = {email: email };
+    $.ajax({
+      url: '/book/'+bookId+'/return',
+      type: 'post',
+      data: data,
+      success: function (data, status) {
+          if (status == 'success') {
+              location.href = '/'+email+'/library';
+          }
+      },
+      error: function (data, status) {
+        alert("You can't borrow your own book!");
+        location.reload();
+      }
+    });
+  });
+
   $("#borrow").click(function () {
     var bookId = $('#bookId').html();
     var email = $('#email').html();

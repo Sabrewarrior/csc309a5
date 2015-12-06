@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     res.render('index');
 });
 
-
+/*---------------login part-----------------*/
 
 router.route("/register")
     /* GET register page. */
@@ -23,7 +23,6 @@ router.route("/register")
         var uname = req.body.uname;
         var upwd = req.body.upwd;
         var catalog = req.body.catalog;
-        console.log(catalog);
         var loc = req.body.location;
         var firstUser = false;
 
@@ -103,41 +102,6 @@ router.route("/login")
             }
         });
     });
-
-/* GET user home page. */
-router.get("/:email/home", function (req, res) {
-    Books.find({borrowed: false}, function (err, data) {
-        //if not logged in
-        if (!req.session.user) {
-            req.session.error = "Please login";
-            res.redirect("/login");
-        } else {
-            Books.find({$and:[{"borrowed": false},{"catalog":{ $in:req.session.user.favourite}}]},function(err,doc){
-              var list = [1,2,3,4,5,6];
-              var shuffle = function(array) {
-                var currentIndex = array.length, temporaryValue, randomIndex ;
-                // While there remain elements to shuffle...
-                while (0 !== currentIndex) {
-                // Pick a remaining element...
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-                // And swap it with the current element.
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-              }
-             return array;
-            }
-              res.locals.recommendbooks = shuffle(doc);
-              res.locals.books = data;
-              res.render("home");
-            })
-        }
-    })
-});
-
-
-
 
 router.route("/:email/profile")
     /* GET user profile page. */
@@ -262,7 +226,6 @@ router.post("/:email/picture", multipartMiddleware, function (req, res) {
         })
 
     })
-
 });
 
 /* GET user behavior page. */
@@ -278,7 +241,6 @@ router.get("/:email/behaviour", function (req, res) {
             });
         }
     })
-
 });
 
 /* GET logout. */
@@ -288,6 +250,40 @@ router.get("/logout", function (req, res) {
     res.redirect("/");
 });
 
+/*-----------main body for books sharing-------------*/
+
+/* GET user home page. */
+router.get("/:email/home", function (req, res) {
+    Books.find({borrowed: false}, function (err, data) {
+        //if not logged in
+        if (!req.session.user) {
+            req.session.error = "Please login";
+            res.redirect("/login");
+        } else {
+            Books.find({$and:[{"borrowed": false},{"catalog":{ $in:req.session.user.favourite}}]},function(err,doc){
+              // shuffling function for randomizing the books list with borrowed tag is false
+              var shuffle = function(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex ;
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+              }
+             return array;
+            }
+            // send to local
+              res.locals.recommendbooks = shuffle(doc);
+              res.locals.books = data;
+              res.render("home");
+            })
+        }
+    })
+});
 
 router.route("/:email/share")
     /* GET user share page. */
@@ -347,30 +343,6 @@ router.route("/:email/share")
         });
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* GET user books page. */
 router.get("/:email/library", function (req, res) {
     Users.findOne({ email: req.params.email }, function (err, doc) {
@@ -401,9 +373,13 @@ router.get("/:email/message", function (req, res) {
 
 
 router.route("/:email1/message/:email2")
+    //get the chat page to email2
     .get(function (req, res) {
+       //find messages from email1 to email2
         Messages.findOne({ from: req.params.email1, to: req.params.email2 }, function (err, doc1) {
+            //if no messages found create new one
             if (doc1) {
+              //find messages from email2 to email1
                 Messages.findOne({ from: req.params.email2, to: req.params.email1 }, function (err, doc2) {
                     res.locals.messages1 = doc1;
                     res.locals.messages2 = doc2;
@@ -411,6 +387,7 @@ router.route("/:email1/message/:email2")
                     res.render("chat");
                 })
             } else {
+               //create messages in database
                 Messages.create({
                     from: req.params.email1,
                     to: req.params.email2,
@@ -432,17 +409,11 @@ router.route("/:email1/message/:email2")
             }
         })
     })
-
    .post(function (req, res) {
-
-
-               Messages.update({ from: req.params.email1, to: req.params.email2 }, { $push: { text: {body: req.body.text } } }, { upsert: true }, function (err) {
-                   res.sendStatus(200);
-               });
-
-
-
-
+     //send message to corresponding user
+        Messages.update({ from: req.params.email1, to: req.params.email2 }, { $push: { text: {body: req.body.text } } }, { upsert: true }, function (err) {
+        res.sendStatus(200);
+        });
    });
 
 
@@ -450,10 +421,12 @@ router.route("/book/:id")
   /* GET book page. */
   .get(function (req, res) {
       Books.findById(req.params.id).exec(function (err, doc){
+        //copy doc found by boodid 4 times
           var comments1 = doc.comments;
           comments2 = comments1.slice();
           comments3 = comments1.slice();
           comments4 = comments1.slice();
+          //sort function using javascript
           var sort_by = function(field, reverse, primer){
             var key = function (x) {return primer ? primer(x[field]) : x[field]};
                return function (a,b) {
@@ -462,12 +435,16 @@ router.route("/book/:id")
                }
              };
           res.locals.book = doc;
+          //sort by date descending
           comments1.sort(sort_by("date",false,false));
           res.locals.book_timed = comments1;
+          //sort by date ascending
           comments2.sort(sort_by("date",true,false));
           res.locals.book_timea = comments2;
+          //sort by rate descending
           comments3.sort(sort_by("rate",false,parseInt));
           res.locals.book_rated = comments3;
+          //sort by rate ascending
           comments4.sort(sort_by("rate",true,parseInt));
           res.locals.book_ratea = comments4;
           res.render("book");
@@ -476,8 +453,10 @@ router.route("/book/:id")
   /* POST book. */
  .post(function (req, res) {
      Books.findById(req.params.id, function (err, doc) {
+       //calculating the rate
          var rate = (doc.rate * doc.comments.length + parseInt(req.body.rate))
                     / (doc.comments.length + 1);
+        //update rate into the database of Books
          Books.update({ _id: req.params.id }, { rate: rate, $push: { comments: { email: req.body.email, body: req.body.body, rate: req.body.rate, date: req.body.date } } }, { upsert: true }, function (err,doc1) {
            res.sendStatus(200);
          });
@@ -485,13 +464,31 @@ router.route("/book/:id")
 
  });
 
+/* POST return. */
+router.post("/book/:id/return", function (req, res) {
+ Books.findById(req.params.id,function(err,doc){
+   // if owner is himself, then send error message
+   if (doc.owner == req.body.email){
+     res.sendStatus(500);
+   }else{
+     /* otherwise, update(delete) the books id in Users database and change the status of borrowed and holder tags of Books database*/
+     Books.update({ _id: req.params.id }, { borrowed: false, holder: null }, function (err) {
+       Users.update({ email: req.body.email }, { $pull: { books: req.params.id }}, function (err1) {
+         res.sendStatus(200);
+       });
+     });
+   }
+ });
+})
 
-
+/* POST borrow. */
 router.post("/book/:id/borrow", function (req, res) {
   Books.findById(req.params.id,function(err,doc){
+    // if owner is himself, then send error message
     if (doc.owner == req.body.email){
       res.sendStatus(500);
     }else{
+      /* otherwise, update(add) the books id in Users database and change the status of borrowed and holder tags of Books database*/
       Books.update({ _id: req.params.id }, { borrowed: true, holder: req.body.email }, function (err) {
         Users.update({ email: req.body.email }, { $addToSet: { books: req.params.id }}, function (err1) {
           res.sendStatus(200);
