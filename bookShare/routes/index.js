@@ -22,6 +22,8 @@ router.route("/register")
         //get user information
         var uname = req.body.uname;
         var upwd = req.body.upwd;
+        var catalog = req.body.catalog;
+        console.log(catalog);
         var loc = req.body.location;
         var firstUser = false;
 
@@ -49,13 +51,13 @@ router.route("/register")
                     } else {
                         role = 'regular';
                     }
-
                     //create user in db
                     var user = Users.create({
                         email: uname,
                         password: upwd,
                         description: '',
                         display_name: uname,
+                        favourite: catalog,
                         image: base64Image,
                         role: role,
                         ip: '',
@@ -110,8 +112,26 @@ router.get("/:email/home", function (req, res) {
             req.session.error = "Please login";
             res.redirect("/login");
         } else {
-            res.locals.books = data;
-            res.render("home");
+            Books.find({$and:[{"borrowed": false},{"catalog":{ $in:req.session.user.favourite}}]},function(err,doc){
+              var list = [1,2,3,4,5,6];
+              var shuffle = function(array) {
+                var currentIndex = array.length, temporaryValue, randomIndex ;
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+              }
+             return array;
+            }
+              res.locals.recommendbooks = shuffle(doc);
+              res.locals.books = data;
+              res.render("home");
+            })
         }
     })
 });
@@ -289,6 +309,7 @@ router.route("/:email/share")
         var title = req.body.title;
         var author = req.body.author;
         var description = req.body.description;
+        var selector = req.body.selector;
         fs.readFile(req.files.picture.path, 'binary', function (err, original_data){
             var book_image = new Buffer(original_data, 'binary').toString('base64');
             if (book_image == ""){
@@ -301,7 +322,8 @@ router.route("/:email/share")
                     rate: 0,
                     description: description,
                     borrowed: false,
-                    image: bookimage
+                    image: bookimage,
+                    catalog: selector
                 }
                 , function (err, doc) {
                     res.redirect('/' + req.params.email + '/home');
@@ -315,7 +337,8 @@ router.route("/:email/share")
                     rate: 0,
                     description: description,
                     borrowed: false,
-                    image: book_image
+                    image: book_image,
+                    catalog: selector
                 }
                 , function (err, doc) {
                     res.redirect('/' + req.params.email + '/home');
@@ -404,16 +427,16 @@ router.route("/:email1/message/:email2")
             }
         })
     })
-    
+
    .post(function (req, res) {
-      
-           
+
+
                Messages.update({ from: req.params.email1, to: req.params.email2 }, { $push: { text: {body: req.body.text } } }, { upsert: true }, function (err) {
                    res.sendStatus(200);
                });
 
-           
-       
+
+
 
    });
 
