@@ -17,45 +17,96 @@
 </head>
 <body>
     <div class="container">
-        <!--nav bar-->
-        <nav class="nav">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href='/<%= user.email %>/home'><img src="http://127.0.0.1:3000/images/logo.jpeg" height="30" witdth="30"></a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav"></ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href='/<%= user.email %>/library'>Library</a></li>
-                        <li><a href='/<%= user.email %>/share'>Share</a></li>
-                        <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
-                        <li><a href='/logout'>Log out</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <h1 align="middle">Library</h1>
-        <br />
-        <br />
-        <!--user table-->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Picture</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for(var i=0; i < books.length; i++) {%>
-                <tr>
-                    <td><img src="data:image/jpg;base64,<%= books[i].image%>" height="100" width="85"/></td>
-                    <td><a href="/book/<%= books[i].id %>"><%= books[i].title %></a></td>
-                    <td><%= books[i].author %></td>
-                </tr>
-                <% } %>
-            </tbody>
+      <!--nav bar-->
+      <nav class="nav">
+          <div class="container-fluid">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href='/<%= user.email %>/home'><img src="http://127.0.0.1:3000/images/logo.jpeg" height="30" witdth="30"></a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav"></ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href='/<%= user.email %>/message'>Message</a></li>
+                      <li><a href='/<%= user.email %>/library'>Library</a></li>
+                      <li><a href='/<%= user.email %>/share'>Share</a></li>
+                      <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
+                      <li><a href='/logout'>Log out</a></li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <h1 align="middle">Library</h1>
+      <div class="btn pull-right">
+        <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          Fliter
+        <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a id="mybooks" href="#">My Books</a></li>
+          <li><a id="borrowedbooks" href="#">Borrowed Books</a></li>
+          <li class="divider"></li>
+          <li><a id="displayall" href="#">Display All</a></li>
+        </ul>
+      </div>
+      </div>
+      <br />
+      <br />
+      <!--user table-->
+      <div id="table1">
+        <hr />
+        <h4>My books:</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Picture</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% for(var i = 0; i < mybooks.length; i++) {%>
+              <tr>
+                  <td><img src="data:image/jpg;base64,<%= mybooks[i].image%>" height="100" width="85"/></td>
+                  <td><a href="/book/<%= mybooks[i].id %>"><%= mybooks[i].title %></a></td>
+                  <td><%= mybooks[i].author %></td>
+                  <% if (mybooks[i].borrowed) {%>
+                    <td>Lent</td>
+                  <% } else{ %>
+                    <td>Hold</td>
+                  <% } %>
+              </tr>
+              <% } %>
+          </tbody>
         </table>
+      </div>
+      <div id="table2">
+        <hr />
+        <h4>Borrowed Books:</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Picture</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i = 0; i < borrowedbooks.length; i++) {%>
+              <tr>
+                <td><img src="data:image/jpg;base64,<%= borrowedbooks[i].image%>" height="100" width="85"/></td>
+                <td><a href="/book/<%= borrowedbooks[i].id %>"><%= borrowedbooks[i].title %></a></td>
+                <td><%= borrowedbooks[i].author %></td>
+                <td><a class="btn btn-lg btn-primary" id="return">Return</a></td>
+              </tr>
+            <% } %>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 

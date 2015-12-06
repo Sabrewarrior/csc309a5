@@ -18,6 +18,9 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav"></ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href='/<%= user.email %>/message'>Message</a></li>
+                        <li><a href='/<%= user.email %>/library'>Library</a></li>
+                        <li><a href='/<%= user.email %>/share'>Share</a></li>
                         <li><a href='/<%= user.email %>/profile'><img src="data:image/png;base64,<%= user.image%>" height="30" width="30" /></a></li>
                         <li><a href='/logout'>Log out</a></li>
                     </ul>
@@ -26,16 +29,20 @@
         </nav>
         <!--main content-->
         <div class="jumbotron">
+            <h2>
+                Share a book
+            </h2>
+            <br>
             <form id="upload" method = "post" enctype="multipart/form-data" action="/<%= email%>/share">
                 <fieldset>
                     <legend>Upload picture</legend>
                     <input type="file" name="picture" class="btn">
                     <legend>Book info</legend>
-                    <label>title:</label>
+                    <label>Title:</label>
                     <input name="title" type="text"><br />
-                    <label>author:</label>
+                    <label>Author:</label>
                     <input name="author" type="text"><br />
-                    <label>description:</label>
+                    <label>Description:</label>
                     <input name="description" type="text"><br />
                     <input type="submit">
                 </fieldset>
