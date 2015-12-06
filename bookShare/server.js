@@ -132,4 +132,5 @@ app.use(function (err, req, res, next) {
 
 
 
-app.listen(port);
+var server = app.listen(port);
+module.exports = server;

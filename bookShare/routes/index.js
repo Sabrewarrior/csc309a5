@@ -415,14 +415,19 @@ router.route("/:email1/message/:email2")
                     from: req.params.email1,
                     to: req.params.email2,
                     text: []
-                })
-                Messages.findOne({ from: req.params.email1, to: req.params.email2 }, function (err, doc1) {
-                    Messages.findOne({ from: req.params.email2, to: req.params.email1 }, function (err, doc2) {
+                }, function (error, doc1) {
+                    Messages.create({
+                        from: req.params.email2,
+                        to: req.params.email1,
+                        text: []
+                    }, function (err, doc2) {
                         res.locals.messages1 = doc1;
                         res.locals.messages2 = doc2;
                         res.locals.to = req.params.email2;
                         res.render("chat");
+
                     })
+
                 })
             }
         })
